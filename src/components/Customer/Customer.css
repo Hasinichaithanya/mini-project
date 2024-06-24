@@ -1,0 +1,9 @@
+.browse-chefs {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+.chefs {
+  display: flex;
+  flex-wrap: wrap;
+}

@@ -1,0 +1,134 @@
+.chef-profile {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  width: 200px;
+}
+.chef-profile:hover {
+  border-radius: 20px;
+  width: 205px;
+  box-shadow: 1px 16px 16px 0px rgb(150, 147, 147);
+}
+.chef-profile img {
+  max-width: 150px;
+  height: 150px;
+  border-radius: 30%;
+}
+
+.chef-profile h3 {
+  margin: 10px 0;
+}
+
+.chef-profile button {
+  padding: 10px;
+  background-color: rgb(244, 195, 103);
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+.chef-profile button:hover {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 14px;
+}
+.btns-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+  bottom: -4px;
+}
+.chef-profile p {
+  margin: 5px 0;
+}
+.profile-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-form,
+.password-update-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.profile-form h2,
+.password-update-container h2 {
+  margin-bottom: 20px;
+}
+
+.profile-form input,
+.profile-form textarea,
+.password-update-container input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.profile-form button,
+.password-update-container button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-form button:hover,
+.password-update-container button:hover {
+  background-color: #218838;
+}
+
+.profile-details {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.profile-details h2 {
+  margin-bottom: 10px;
+}
+
+.profile-details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.profile-details li {
+  background-color: #fff;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.modal-image {
+  height: 150px;
+  width: 150px;
+  border-radius: 10px;
+}
+.modal-btn {
+  background-color: #feac4d;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  color: white;
+}
+.list-item {
+  list-style-type: none;
+}
