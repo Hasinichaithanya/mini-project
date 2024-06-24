@@ -10,36 +10,36 @@ const override = {
   margin: "0 auto",
   borderColor: "red",
 };
+
 const BrowseChefs = () => {
   const [chefs, setChefs] = useState([]);
+  const [filteredChefs, setFilteredChefs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOrder, setSortOrder] = useState("asc");
   const [errMsg, setErrMsg] = useState("");
-  const [isLoading, setIsLoading] = useState();
-  let [color, setColor] = useState("#ffffff");
+  const [isLoading, setIsLoading] = useState(true);
+  const [color, setColor] = useState("#ffffff");
 
   useEffect(() => {
     fetchChefs();
-  }, [sortOrder]); // Refetch chefs when sort order changes
+  }, []);
 
-  const fetchChefs = async (query = "") => {
-    setIsLoading(true);
-    const endpoint = query
-      ? `http://localhost:8080/search?q=${query}`
-      : "http://localhost:8080/get-all";
-    fetch(endpoint)
-      .then((response) => {
-        return response.json();
-      })
-      .then((response) => {
-        const data = sortChefsByCost(response.usersList);
-        setChefs(data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setErrMsg("Could not fetch the data, try once again!");
-      });
+  useEffect(() => {
+    filterAndSortChefs();
+  }, [searchTerm, sortOrder]);
+
+  const fetchChefs = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/get-all");
+      const data = await response.json();
+      setChefs(data.usersList);
+      setFilteredChefs(sortChefsByCost(data.usersList));
+      setIsLoading(false);
+    } catch (error) {
+      console.error(error);
+      setErrMsg("Could not fetch the data, try once again!");
+      setIsLoading(false);
+    }
   };
 
   const sortChefsByCost = (chefsList) => {
@@ -52,10 +52,20 @@ const BrowseChefs = () => {
     });
   };
 
+  const filterAndSortChefs = () => {
+    let filteredList = chefs.filter((chef) => {
+      const foodItems =
+        typeof chef.Fooditems === "string"
+          ? chef.Fooditems
+          : chef.Fooditems.join(", ");
+      return foodItems.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+    filteredList = sortChefsByCost(filteredList);
+    setFilteredChefs(filteredList);
+  };
+
   const handleSearch = (event) => {
-    const query = event.target.value;
-    setSearchTerm(query);
-    fetchChefs(query);
+    setSearchTerm(event.target.value);
   };
 
   const handleSortOrderChange = (event) => {
@@ -78,18 +88,18 @@ const BrowseChefs = () => {
           </select>
         </div>
         <div className="chefs">
-          {chefs.map((chef) => (
+          {filteredChefs.map((chef) => (
             <ChefProfile key={uuidv4()} chef={chef} />
           ))}
         </div>
       </>
     );
   };
+
   return (
     <div className="browse-chefs">
       {isLoading && (
         <div>
-          {" "}
           <ClipLoader
             color={color}
             loading={isLoading}
@@ -100,7 +110,7 @@ const BrowseChefs = () => {
           />
         </div>
       )}
-      {chefs.length > 0 ? renderChefs() : <p>{errMsg}</p>}
+      {filteredChefs.length > 0 ? renderChefs() : <p>{errMsg}</p>}
     </div>
   );
 };
