@@ -14,7 +14,9 @@ const Orders = () => {
         console.error("User ID is invalid or not found in cookies");
         return;
       }
-      const url = "http://localhost:8080/get-user?id=" + id.slice(1, -1);
+      const url =
+        "https://mini-project-backend-i3zm.onrender.com/get-user?id=" +
+        id.slice(1, -1);
       console.log(url);
       try {
         const response = await fetch(url, {
@@ -37,7 +39,6 @@ const Orders = () => {
   }, []);
 
   const renderOrder = (orders) => {
-    console.log(orders);
     return (
       <>
         {orders.map((order) => {

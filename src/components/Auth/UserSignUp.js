@@ -47,7 +47,7 @@ const UserSignUp = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/user-signup",
+        "https://mini-project-backend-i3zm.onrender.com/user-signup",
         options
       );
       const result = await response.json();

@@ -74,7 +74,10 @@ const ProfileForm = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/register", options);
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/register",
+        options
+      );
       const result = await response.json();
       console.log(result.userDetails.insertedId);
       if (response.ok) {
@@ -96,7 +99,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="register-form">
       <h1>Register as a chef</h1>
       <input
         type="text"
@@ -181,7 +184,9 @@ const ProfileForm = () => {
       />
       {errors.specialties && <p className="error">*{errors.specialties}</p>}
       <br />
-      <button type="submit">Register</button>
+      <button className="submit" type="submit">
+        Register
+      </button>
     </form>
   );
 };

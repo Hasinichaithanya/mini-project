@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FileBase64 from "react-file-base64";
 import Cookies from "js-cookie";
 import "./Chef.css";
+import Orders from "./../Orders/Orders";
 
 const ProfileForm = () => {
   const [profile, setProfile] = useState({
@@ -26,7 +27,9 @@ const ProfileForm = () => {
         console.error("User ID is invalid or not found in cookies");
         return;
       }
-      const url = "http://localhost:8080/get-chef?id=" + id.slice(1, -1);
+      const url =
+        "https://mini-project-backend-i3zm.onrender.com/get-chef?id=" +
+        id.slice(1, -1);
       console.log(url);
       try {
         const response = await fetch(url, {
@@ -65,13 +68,16 @@ const ProfileForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/chef-profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(profile),
-      });
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/chef-profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(profile),
+        }
+      );
 
       if (response.ok) {
         console.log("Profile updated successfully");
@@ -86,14 +92,17 @@ const ProfileForm = () => {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/change-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${Cookies.get("token")}`,
-        },
-        body: JSON.stringify({ password: profile.password }),
-      });
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/change-password",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+          body: JSON.stringify({ password: profile.password }),
+        }
+      );
 
       if (response.ok) {
         console.log("Password updated successfully");
@@ -214,6 +223,28 @@ const ProfileForm = () => {
           </ul>
         ) : (
           <li>No comments available</li>
+        )}{" "}
+        <h3>Orders: </h3>
+        {!profile.orders == [] ? (
+          <ul>
+            {profile.orders.length > 0 &&
+              profile.orders.map((order, index) => (
+                <li key={index}>
+                  Date: {order.date}
+                  <br />
+                  Time: {order.time}
+                  <br />
+                  Selected Items:
+                  <ul>
+                    {order.selectedItems.map((item, index) => (
+                      <li key={index}>{item}</li>
+                    ))}
+                  </ul>
+                </li>
+              ))}
+          </ul>
+        ) : (
+          <li>No Orders available</li>
         )}
       </div>
     </div>

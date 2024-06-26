@@ -45,7 +45,7 @@ const ChefProfile = ({ chef = {} }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:8080/update-comments/${chef._id}`,
+        `https://mini-project-backend-i3zm.onrender.com/update-comments/${chef._id}`,
         {
           method: "POST",
           headers: {
@@ -69,7 +69,7 @@ const ChefProfile = ({ chef = {} }) => {
   const handleLike = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/update-likes/${chef._id}`,
+        `https://mini-project-backend-i3zm.onrender.com/update-likes/${chef._id}`,
         {
           method: "POST",
         }
@@ -139,7 +139,7 @@ const ChefProfile = ({ chef = {} }) => {
           <strong>Experience:</strong> {chef.Experience || 0} years
         </p>
         <p>
-          <strong>Mail:</strong>
+          <strong>Mail: </strong>
           {chef.email}
         </p>
         <p>
@@ -162,23 +162,28 @@ const ChefProfile = ({ chef = {} }) => {
             <li>No comments available</li>
           )}
         </ul>
-        <form onSubmit={handleCommentSubmit}>
+        <form className="form-modal" onSubmit={handleCommentSubmit}>
           <textarea
             value={newComment}
             onChange={handleCommentChange}
             placeholder="Add your comment"
           />
           <button type="submit" className="modal-btn">
-            Submit Comment
+            Comment
           </button>
-          <button onClick={() => openBookingModal(chef._id)}>Book Chef</button>
-          <BookingModal
-            isOpen={isModalOpen}
-            closeModal={closeBookingModal}
-            chefId={selectedChefId}
-            items={chef.Fooditems}
-          />
         </form>
+        <button
+          className="modal-btn"
+          onClick={() => openBookingModal(chef._id)}
+        >
+          Book Chef
+        </button>
+        <BookingModal
+          isOpen={isModalOpen}
+          closeModal={closeBookingModal}
+          chefId={selectedChefId}
+          items={chef.Fooditems}
+        />
         <button onClick={closeModal} className="modal-btn">
           Close
         </button>

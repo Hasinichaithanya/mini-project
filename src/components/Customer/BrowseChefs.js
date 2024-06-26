@@ -23,7 +23,9 @@ const BrowseChefs = () => {
 
   const fetchChefs = async () => {
     try {
-      const response = await fetch("http://localhost:8080/get-all");
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/get-all"
+      );
       const data = await response.json();
       console.log(data.chefsList);
       setChefs(data.chefsList);

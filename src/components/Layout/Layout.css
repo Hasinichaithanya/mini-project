@@ -1,5 +1,5 @@
 header {
-  background-color: #007bff;
+  background-color: #f9a300;
   color: white;
   padding: 10px 0;
   text-align: center;
@@ -23,4 +23,7 @@ header nav a {
 
 header nav a:hover {
   text-decoration: underline;
+}
+.logo {
+  height: 50px;
 }

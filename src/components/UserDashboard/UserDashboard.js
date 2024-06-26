@@ -18,7 +18,9 @@ const UserDashboard = () => {
         console.error("User ID is invalid or not found in cookies");
         return;
       }
-      const url = "http://localhost:8080/get-user?id=" + id.slice(1, -1);
+      const url =
+        "https://mini-project-backend-i3zm.onrender.com/get-user?id=" +
+        id.slice(1, -1);
       console.log(url);
       try {
         const response = await fetch(url, {
@@ -51,13 +53,16 @@ const UserDashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/chef-profile", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(profile),
-      });
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/chef-profile",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(profile),
+        }
+      );
 
       if (response.ok) {
         console.log("Profile updated successfully");
@@ -72,13 +77,16 @@ const UserDashboard = () => {
   const handlePasswordChange = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/change-password", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password: profile.password }),
-      });
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/change-password",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password: profile.password }),
+        }
+      );
 
       if (response.ok) {
         console.log("Password updated successfully");

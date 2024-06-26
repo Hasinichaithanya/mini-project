@@ -11,7 +11,11 @@ const Header = () => {
   console.log(isLoggedIn, user);
   return (
     <header>
-      <img src="./cheflogo.png" alt="logo" />
+      <img
+        src="https://res.cloudinary.com/dlnpuom7o/image/upload/v1719422571/chef_logo_wtmpko.png"
+        alt="logo"
+        className="logo"
+      />
       <nav>
         <Link to="/">Home</Link>
         <Link to="/browse-chefs">Browse Chefs</Link>

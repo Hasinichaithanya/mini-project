@@ -5,7 +5,6 @@ import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 import "./Booking.css";
-import UserSignUp from "./../Auth/UserSignUp";
 
 const BookingModal = ({ isOpen, closeModal, chefId, items }) => {
   const [date, setDate] = useState("");
@@ -44,16 +43,18 @@ const BookingModal = ({ isOpen, closeModal, chefId, items }) => {
       const id = Cookies.get("userId");
       const userId = id.slice(1, -1);
       console.log(userId);
-      const response = await fetch("http://localhost:8080/send-mail", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ chefId, userId, date, time, selectedItems }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to book chef");
-      }
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/send-mail",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ chefId, userId, date, time, selectedItems }),
+        }
+      );
+      console.log(response);
+
       // Refresh chefs after booking
     } catch (error) {
       console.error("Error booking chef:", error);

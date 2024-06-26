@@ -42,7 +42,10 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/login", options);
+      const response = await fetch(
+        "https://mini-project-backend-i3zm.onrender.com/login",
+        options
+      );
       const result = await response.json();
       if (result.Message) {
         Cookies.set("userId", JSON.stringify(result.userId), {
@@ -70,7 +73,7 @@ const Login = () => {
 
   return (
     <div className="auth-container">
-      <h2>Sign Up</h2>
+      <h2>Login</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="email"

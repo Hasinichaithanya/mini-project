@@ -17,7 +17,6 @@ const OrderForm = ({ chef }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle order placement logic
   };
 
   return (
