@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineLike } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
+import BookingModal from "../Booking/Booking";
 
 import Modal from "react-modal";
 import "./Chef.css";
@@ -12,6 +13,8 @@ const ChefProfile = ({ chef = {} }) => {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState(chef.comments || []);
   const [likes, setLikes] = useState(chef.likes || 0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedChefId, setSelectedChefId] = useState("");
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -23,6 +26,15 @@ const ChefProfile = ({ chef = {} }) => {
 
   const handleCommentChange = (event) => {
     setNewComment(event.target.value);
+  };
+
+  const openBookingModal = (chefId) => {
+    setSelectedChefId(chefId);
+    setIsModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsModalOpen(false);
   };
 
   const handleCommentSubmit = async (event) => {
@@ -127,6 +139,10 @@ const ChefProfile = ({ chef = {} }) => {
           <strong>Experience:</strong> {chef.Experience || 0} years
         </p>
         <p>
+          <strong>Mail:</strong>
+          {chef.email}
+        </p>
+        <p>
           <strong>Specialties:</strong>{" "}
           {chef.Fooditems
             ? chef.Fooditems.join(", ")
@@ -155,6 +171,13 @@ const ChefProfile = ({ chef = {} }) => {
           <button type="submit" className="modal-btn">
             Submit Comment
           </button>
+          <button onClick={() => openBookingModal(chef._id)}>Book Chef</button>
+          <BookingModal
+            isOpen={isModalOpen}
+            closeModal={closeBookingModal}
+            chefId={selectedChefId}
+            items={chef.Fooditems}
+          />
         </form>
         <button onClick={closeModal} className="modal-btn">
           Close

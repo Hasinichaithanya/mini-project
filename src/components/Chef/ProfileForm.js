@@ -19,7 +19,6 @@ const ProfileForm = () => {
 
   useEffect(() => {
     const id = Cookies.get("userId");
-    console.log(typeof id);
     console.log(id);
 
     const fetchProfile = async () => {
@@ -27,7 +26,7 @@ const ProfileForm = () => {
         console.error("User ID is invalid or not found in cookies");
         return;
       }
-      const url = "http://localhost:8080/get-user?id=" + id.slice(1, -1);
+      const url = "http://localhost:8080/get-chef?id=" + id.slice(1, -1);
       console.log(url);
       try {
         const response = await fetch(url, {
@@ -39,8 +38,7 @@ const ProfileForm = () => {
         }
 
         const data = await response.json();
-        console.log(data);
-        setProfile(data.userDetails || {}); // Ensure data.userDetails is handled correctly
+        setProfile(data.chefDetails || {});
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
@@ -111,27 +109,39 @@ const ProfileForm = () => {
     <div className="profile-form-container">
       <form onSubmit={handleSubmit} className="profile-form">
         <h2>Update Profile</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={profile.name}
-          onChange={handleChange}
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={profile.email}
-          onChange={handleChange}
-        />
-        <input
-          type="number"
-          name="cost"
-          placeholder="Cost per Meal"
-          value={profile.cost}
-          onChange={handleChange}
-        />
+        <div>
+          <label>Name:</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            value={profile.name}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          {" "}
+          <label>E-Mail:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={profile.email}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          {" "}
+          <label>Cost per meal:</label>
+          <input
+            type="number"
+            name="cost"
+            placeholder="Cost per Meal"
+            value={profile.cost}
+            onChange={handleChange}
+          />
+        </div>
+        <img src={profile.image} alt="chef" />
         <FileBase64 multiple={false} onDone={handleImageUpload} />
         <input
           type="text"
@@ -140,26 +150,38 @@ const ProfileForm = () => {
           value={profile.Location}
           onChange={handleChange}
         />
-        <input
-          type="number"
-          name="Experience"
-          placeholder="Years of Experience"
-          value={profile.Experience}
-          onChange={handleChange}
-        />
-        <input
-          type="text"
-          name="Experience"
-          placeholder="Your food items"
-          value={profile.Fooditems}
-          onChange={handleChange}
-        />
-        <textarea
-          name="Description"
-          placeholder="Description"
-          value={profile.Description}
-          onChange={handleChange}
-        />
+        <div>
+          {" "}
+          <label>Experience:</label>
+          <input
+            type="number"
+            name="Experience"
+            placeholder="Years of Experience"
+            value={profile.Experience}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Food Items:</label>
+
+          <input
+            type="text"
+            name="Experience"
+            placeholder="Your food items"
+            value={profile.Fooditems}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label>Description: </label>
+
+          <textarea
+            name="Description"
+            placeholder="Description"
+            value={profile.Description}
+            onChange={handleChange}
+          />
+        </div>
         <button type="submit">Update Profile</button>
       </form>
 
@@ -180,10 +202,10 @@ const ProfileForm = () => {
       <div className="profile-details">
         <h2>Profile Details</h2>
         <p>
-          <strong>Likes:</strong> {!profile.likes == null ? profile.likes : "0"}
+          <strong>Likes:</strong> {!profile.likes == 0 ? profile.likes : "0"}
         </p>
-        <h3>Comments</h3>
-        {!profile.comments === null ? (
+        <h3>Comments:</h3>
+        {!profile.comments == [] ? (
           <ul>
             {profile.comments.length > 0 &&
               profile.comments.map((comment, index) => (

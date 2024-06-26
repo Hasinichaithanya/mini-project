@@ -82,6 +82,9 @@ const ProfileForm = () => {
         Cookies.set("userId", JSON.stringify(result.userDetails.insertedId), {
           expires: 10,
         });
+        Cookies.set("user", "Chef", {
+          expires: 10,
+        });
         // Navigate to home page programmatically using useNavigate
         navigate("/");
       } else {
@@ -102,7 +105,7 @@ const ProfileForm = () => {
         value={profile.name}
         onChange={handleChange}
       />
-      {errors.name && <p className="error">{errors.name}</p>}
+      {errors.name && <p className="error">*{errors.name}</p>}
       <br />
       <input
         type="mail"
@@ -111,7 +114,7 @@ const ProfileForm = () => {
         value={profile.mail}
         onChange={handleChange}
       />
-      {errors.mail && <p className="error">{errors.mail}</p>}
+      {errors.mail && <p className="error">*{errors.mail}</p>}
       <br />
       <input
         type="password"
@@ -120,7 +123,7 @@ const ProfileForm = () => {
         value={profile.password}
         onChange={handleChange}
       />
-      {errors.password && <p className="error">{errors.password}</p>}
+      {errors.password && <p className="error">*{errors.password}</p>}
       <br />
       <input
         type="number"
@@ -129,7 +132,7 @@ const ProfileForm = () => {
         value={profile.experience}
         onChange={handleChange}
       />
-      {errors.experience && <p className="error">{errors.experience}</p>}
+      {errors.experience && <p className="error">*{errors.experience}</p>}
       <br />
       <input
         type="number"
@@ -138,7 +141,7 @@ const ProfileForm = () => {
         value={profile.pricePerMeal}
         onChange={handleChange}
       />
-      {errors.pricePerMeal && <p className="error">{errors.pricePerMeal}</p>}
+      {errors.pricePerMeal && <p className="error">*{errors.pricePerMeal}</p>}
       <br />
       <select name="location" value={profile.location} onChange={handleChange}>
         <option>Nizamabad</option>
@@ -158,7 +161,7 @@ const ProfileForm = () => {
         value={profile.fooditems}
         onChange={handleChange}
       />
-      {errors.fooditems && <p className="error">{errors.fooditems}</p>}
+      {errors.fooditems && <p className="error">*{errors.fooditems}</p>}
       <br />
       <div>
         <label>Upload your image</label>{" "}
@@ -168,7 +171,7 @@ const ProfileForm = () => {
           onDone={({ base64 }) => setImage({ image: base64 })}
         />
       </div>
-      {errors.image && <p className="error">{errors.image}</p>}
+      {errors.image && <p className="error">*{errors.image}</p>}
       <br />
       <textarea
         name="specialties"
@@ -176,7 +179,7 @@ const ProfileForm = () => {
         value={profile.specialties}
         onChange={handleChange}
       />
-      {errors.specialties && <p className="error">{errors.specialties}</p>}
+      {errors.specialties && <p className="error">*{errors.specialties}</p>}
       <br />
       <button type="submit">Register</button>
     </form>

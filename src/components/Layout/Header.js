@@ -6,7 +6,9 @@ import "./Layout.css";
 const Header = () => {
   // Check if the user is logged in by looking for a specific cookie
   const isLoggedIn = Cookies.get("userId");
-  console.log(isLoggedIn);
+  const user = Cookies.get("user");
+
+  console.log(isLoggedIn, user);
   return (
     <header>
       <img src="./cheflogo.png" alt="logo" />
@@ -14,9 +16,10 @@ const Header = () => {
         <Link to="/">Home</Link>
         <Link to="/browse-chefs">Browse Chefs</Link>
         <Link to="/about-us">About Us</Link>
-
-        {!isLoggedIn && <Link to="/register">Register</Link>}
-        {isLoggedIn && <Link to="/dashboard">Dashboard</Link>}
+        {!isLoggedIn && <Link to="/UserSignUp">Sign Up</Link>}
+        {user === "chef" && <Link to="/dashboard">Dashboard</Link>}
+        {user === "user" && <Link to="/orders">Orders</Link>}
+        {user === "user" && <Link to="/user-profile">Profile</Link>}
       </nav>
     </header>
   );

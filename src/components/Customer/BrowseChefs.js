@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import ClipLoader from "react-spinners/ClipLoader";
+import Spinner from "react-bootstrap/Spinner";
 
 import ChefProfile from "../Chef/Profile";
 import "./Customer.css";
-
-const override = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
-};
 
 const BrowseChefs = () => {
   const [chefs, setChefs] = useState([]);
@@ -18,7 +12,6 @@ const BrowseChefs = () => {
   const [sortOrder, setSortOrder] = useState("asc");
   const [errMsg, setErrMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [color, setColor] = useState("#ffffff");
 
   useEffect(() => {
     fetchChefs();
@@ -32,8 +25,9 @@ const BrowseChefs = () => {
     try {
       const response = await fetch("http://localhost:8080/get-all");
       const data = await response.json();
-      setChefs(data.usersList);
-      setFilteredChefs(sortChefsByCost(data.usersList));
+      console.log(data.chefsList);
+      setChefs(data.chefsList);
+      setFilteredChefs(sortChefsByCost(data.chefsList));
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -53,6 +47,7 @@ const BrowseChefs = () => {
   };
 
   const filterAndSortChefs = () => {
+    console.log(chefs);
     let filteredList = chefs.filter((chef) => {
       const foodItems =
         typeof chef.Fooditems === "string"
@@ -62,55 +57,63 @@ const BrowseChefs = () => {
     });
     filteredList = sortChefsByCost(filteredList);
     setFilteredChefs(filteredList);
+
+    if (filteredList.length === 0) {
+      setErrMsg("No chefs match your search criteria.");
+    } else {
+      setErrMsg("");
+    }
   };
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+    const input = event.target.value;
+    const regex = /^[a-zA-Z]*$/;
+    if (regex.test(input)) {
+      setSearchTerm(input);
+    }
   };
 
   const handleSortOrderChange = (event) => {
     setSortOrder(event.target.value);
   };
 
-  const renderChefs = () => {
-    return (
-      <>
-        <div>
-          <input
-            type="text"
-            placeholder="Search by food items..."
-            value={searchTerm}
-            onChange={handleSearch}
-          />
-          <select value={sortOrder} onChange={handleSortOrderChange}>
-            <option value="asc">Cost: Low to High</option>
-            <option value="desc">Cost: High to Low</option>
-          </select>
-        </div>
-        <div className="chefs">
-          {filteredChefs.map((chef) => (
-            <ChefProfile key={uuidv4()} chef={chef} />
-          ))}
-        </div>
-      </>
-    );
-  };
-
   return (
     <div className="browse-chefs">
-      {isLoading && (
+      <div>
+        <input
+          type="text"
+          placeholder="Search by food items..."
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+        <select
+          className="select-options"
+          value={sortOrder}
+          onChange={handleSortOrderChange}
+        >
+          <option value="asc">Cost: Low to High</option>
+          <option value="desc">Cost: High to Low</option>
+        </select>
+      </div>
+      {isLoading ? (
         <div>
-          <ClipLoader
-            color={color}
-            loading={isLoading}
-            cssOverride={override}
-            size={150}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-          />
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
+      ) : (
+        <>
+          {filteredChefs.length > 0 ? (
+            <div className="chefs">
+              {filteredChefs.map((chef) => (
+                <ChefProfile key={uuidv4()} chef={chef} />
+              ))}
+            </div>
+          ) : (
+            <p>{errMsg}</p>
+          )}
+        </>
       )}
-      {filteredChefs.length > 0 ? renderChefs() : <p>{errMsg}</p>}
     </div>
   );
 };

@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-const Login = () => {
+const UserSignUp = () => {
   const [user, setUser] = useState({
+    name: "",
     mail: "",
     password: "",
+    location: "Nizamabad",
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate(); // Initialize useNavigate
 
   const validateForm = () => {
     const newErrors = {};
+    if (!user.name) newErrors.name = "Name is required.";
     if (!user.mail) {
       newErrors.mail = "Email is required.";
     } else if (!/\S+@\S+\.\S+/.test(user.mail)) {
@@ -23,16 +26,17 @@ const Login = () => {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
+    console.log("clikc");
     const object = {
+      name: user.name,
       email: user.mail,
+      location: user.location,
       password: user.password,
     };
-    console.log(object);
+
     const options = {
       method: "POST",
       headers: {
@@ -42,10 +46,14 @@ const Login = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/login", options);
+      const response = await fetch(
+        "http://localhost:8080/user-signup",
+        options
+      );
       const result = await response.json();
-      if (result.Message) {
-        Cookies.set("userId", JSON.stringify(result.userId), {
+      console.log(result);
+      if (result.message) {
+        Cookies.set("userId", JSON.stringify(result.id), {
           expires: 10,
         });
         Cookies.set("user", result.user, {
@@ -53,7 +61,7 @@ const Login = () => {
         });
         navigate("/");
       } else {
-        console.error("Login failed:", result);
+        console.error("Sign Up failed:", result);
       }
     } catch (error) {
       console.error("Error:", error);
@@ -73,7 +81,15 @@ const Login = () => {
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <input
-          type="email"
+          type="text"
+          name="name"
+          placeholder="Enter your name"
+          value={user.name}
+          onChange={handleChange}
+        />
+        <br />
+        <input
+          type="mail"
           name="mail"
           placeholder="Email"
           value={user.mail}
@@ -88,10 +104,30 @@ const Login = () => {
           onChange={handleChange}
         />{" "}
         <br />
-        <button type="submit">Login</button>
-      </form>
+        <select
+          name="location"
+          value={user.location}
+          onChange={handleChange}
+          className="location"
+        >
+          <option>Nizamabad</option>
+          <option>Banjara Hills</option>
+          <option>Jubilee Hills</option>
+          <option>Charminar</option>
+          <option>Secunderabad</option>
+          <option>Karimnagar</option>
+          <option>Warangal</option>
+          <option>Khammam</option>
+        </select>
+        <button type="submit">Sign Up</button>
+      </form>{" "}
+      <br />
+      <Link to="/register">Register as Chef?</Link>
+      <br />
+      <br />
+      <Link to="/login">Already have an account? Login!</Link>
     </div>
   );
 };
 
-export default Login;
+export default UserSignUp;

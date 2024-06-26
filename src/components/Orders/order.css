@@ -1,0 +1,19 @@
+.order-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid orange;
+  border-radius: 10px;
+}
+
+.order-image {
+  height: 100px;
+  width: 100px;
+  border-radius: 10px;
+}
+.image-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
